@@ -17,6 +17,6 @@ impl AsyncRequestHandler<CreateOrderCommand, Order> for CreateOrderCommandHandle
     async fn handle(&mut self, command: CreateOrderCommand) -> Order {
       let lock = self.0.lock().await;
       let order = lock.create_order(command.order).await.expect("Failed to create order");
-      order
+      order  
     }
 }
