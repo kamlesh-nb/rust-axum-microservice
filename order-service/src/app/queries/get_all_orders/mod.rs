@@ -14,7 +14,6 @@ impl AsyncRequestHandler<GetAllOrdersRequest, Vec<Order>> for GetAllOrdersReques
 
     async fn handle(&mut self, _req: GetAllOrdersRequest) -> Vec<Order> {
         let lock = self.0.lock().await;
-        let lock = lock;
         let orders = lock.get_all_orders().await.expect("no order found");
         orders
     }
