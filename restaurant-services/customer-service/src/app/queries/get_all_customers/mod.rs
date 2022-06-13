@@ -16,6 +16,10 @@ impl AsyncRequestHandler<GetAllCustomersRequest, Vec<CustomerDto>> for GetAllCus
     async fn handle(&mut self, _req: GetAllCustomersRequest) -> Vec<CustomerDto> {
         let lock = self.0.lock().await;
         let customers = lock.get_all().await.expect("no customer found");
-        customers
+        let mut customer_dtos: Vec<CustomerDto> = Vec::new();
+        for customer in customers {
+          customer_dtos.push(customer.into())
+        }
+        customer_dtos
     }
 }

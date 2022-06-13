@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct UpdateCustomerCommand {
+  pub id: String,
   pub customer: CustomerDto,
 }
 
@@ -16,7 +17,7 @@ pub struct UpdateCustomerCommandHandler(pub SharedCosmosService<Customer>, pub D
 impl AsyncRequestHandler<UpdateCustomerCommand, CustomerDto> for UpdateCustomerCommandHandler {
     async fn handle(&mut self, command: UpdateCustomerCommand) -> CustomerDto {
       let lock = self.0.lock().await;
-      let customer = lock.update(command.customer, command.customer.id.clone()).await.expect("Failed to update customer");
-      customer
+      let customer = lock.update(command.customer.into(), command.id.clone()).await.expect("Failed to update customer");
+      customer.into()
     }
 }

@@ -7,7 +7,10 @@ use mediator::DefaultAsyncMediator;
 mod settings;
 pub use settings::*;
 
+mod apidoc;
+pub use apidoc::*;
 
+use crate::{app::*, domain::Customer};
 
 use serde::{Serialize, de::DeserializeOwned};
 use tokio::sync::Mutex;
@@ -22,10 +25,16 @@ where V: Serialize + DeserializeOwned + Clone + CosmosEntity + 'static + Send
   Arc::new(Mutex::new(service))
 }
 
-pub fn create_mediator<V>(service: CosmosService<V>) -> DefaultAsyncMediator  
+pub fn create_mediator<V>(service: &SharedCosmosService<Customer>) -> DefaultAsyncMediator  
 where V: Serialize + DeserializeOwned + Clone + CosmosEntity + 'static + Send
 {
-  let mediator = DefaultAsyncMediator::builder().build();
-
-  mediator
+  let mediator = DefaultAsyncMediator::builder()
+        .add_handler(GetAllCustomersRequestHandler(service.clone()))
+        .add_handler(GetCustomerByIdRequestHandler(service.clone()))
+        .add_handler_deferred(|m| CreateCustomerCommandHandler(service.clone(), m))
+        .add_handler_deferred(|m| DeleteCustomerCommandHandler(service.clone(), m))
+        .add_handler_deferred(|m| UpdateCustomerCommandHandler(service.clone(), m))
+        .build();
+    
+        mediator
 }

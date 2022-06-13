@@ -1,4 +1,4 @@
-use crate::{SharedCosmosService, app::CustomerDto, domain::Customer};
+use crate::{SharedCosmosService, domain::Customer};
 use mediator::{AsyncRequestHandler, DefaultAsyncMediator, Request};
 use serde::{Deserialize, Serialize};
  
@@ -8,15 +8,15 @@ pub struct DeleteCustomerCommand {
   pub id: String,
 }
 
-impl Request<CustomerDto> for DeleteCustomerCommand {}
+impl Request<String> for DeleteCustomerCommand {}
 
 pub struct DeleteCustomerCommandHandler(pub SharedCosmosService<Customer>, pub DefaultAsyncMediator);
 
 #[mediator::async_trait]
-impl AsyncRequestHandler<DeleteCustomerCommand, CustomerDto> for DeleteCustomerCommandHandler {
-    async fn handle(&mut self, command: DeleteCustomerCommand) -> CustomerDto {
+impl AsyncRequestHandler<DeleteCustomerCommand, String> for DeleteCustomerCommandHandler {
+    async fn handle(&mut self, command: DeleteCustomerCommand) -> String {
       let lock = self.0.lock().await;
-      let customer = lock.delete(command.id.clone()).await.expect("Failed to delete customer");
-      customer
+      let _ = lock.delete(command.id.clone()).await.expect("Failed to delete customer");
+      command.id
     }
 }

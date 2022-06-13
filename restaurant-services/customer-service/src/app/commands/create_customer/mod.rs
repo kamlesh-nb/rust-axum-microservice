@@ -16,7 +16,7 @@ pub struct CreateCustomerCommandHandler(pub SharedCosmosService<Customer>, pub D
 impl AsyncRequestHandler<CreateCustomerCommand, CustomerDto> for CreateCustomerCommandHandler {
     async fn handle(&mut self, command: CreateCustomerCommand) -> CustomerDto {
       let lock = self.0.lock().await;
-      let customer = lock.create(command.customer).await.expect("Failed to create customer");
-      customer  
+      let customer = lock.create(command.customer.into()).await.expect("Failed to create customer");
+      customer.into()  
     }
 }
