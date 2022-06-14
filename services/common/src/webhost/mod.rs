@@ -11,7 +11,7 @@ use mediator::DefaultAsyncMediator;
 use tokio::sync::Mutex;
 use tower_http::{compression::CompressionLayer, cors::CorsLayer};
 use crate::cosmosdb::CosmosService;
-use crate::data::Repository;
+
  
 
 #[derive(Clone)]
@@ -55,7 +55,7 @@ impl WebHost {
         self
     }
 
-    pub fn add_repository<V>(mut self, repository: Arc<Mutex<V>>) -> Self where V: 'static + std::marker::Send + Repository<V> {
+    pub fn add_repository<V>(mut self, repository: Arc<Mutex<V>>) -> Self where V: 'static + std::marker::Send  {
       self.app = self.app.layer(Extension(repository.clone()));
       self
     }
