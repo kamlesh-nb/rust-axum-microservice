@@ -1023,6 +1023,22 @@ checksum = "2dffe52ecf27772e601905b7522cb4ef790d2cc203488bbd0e2fe85fcb74566d"
 [[package]]
 name = "menu-service"
 version = "0.1.0"
+dependencies = [
+ "axum",
+ "axum-macros",
+ "azure_core",
+ "azure_data_cosmos",
+ "chrono",
+ "config",
+ "hyper",
+ "mediator",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tower",
+ "tower-http",
+ "utoipa",
+]
 
 [[package]]
 name = "mime"

@@ -4,12 +4,13 @@ use chrono::{DateTime, Utc};
 
 use crate::domain::MenuCategory;
 
-use super::MenuItem;
+use super::Ingredient;
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
-pub struct MenuCategory{
+pub struct MenuItem{
   pub id: String,
-  pub category: String,
-  pub description: String,
-  pub menu_items: Vec<MenuItem>
+  pub name: String,
+  pub price: f32,
+  pub ingredients: Vec<Ingredient>,
+  pub status: i8
 }
