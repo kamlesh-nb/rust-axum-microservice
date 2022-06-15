@@ -6,3 +6,6 @@ pub use menu_item::*;
 
 mod ingredient;
 pub use ingredient::*;
+
+mod menu_error;
+pub use menu_error::*;

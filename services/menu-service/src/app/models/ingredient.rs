@@ -1,8 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::Component;
-use chrono::{DateTime, Utc};
 
- 
 
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
 pub struct IngredientDto{
@@ -10,5 +8,5 @@ pub struct IngredientDto{
   pub category: String,
   pub name: String,
   pub quantity: f32,
-  pub uom: String
+  pub uom: String,
 }

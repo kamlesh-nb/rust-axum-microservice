@@ -2,6 +2,7 @@
 members = [
   "common",
   "customer-service",
+  "ingredient-service",
   "menu-service",
   "order-service",
   "payment-service",

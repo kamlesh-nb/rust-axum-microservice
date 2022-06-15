@@ -1,8 +1,5 @@
 use serde::{Deserialize, Serialize};
 use utoipa::Component;
-use chrono::{DateTime, Utc};
-
- 
 
 use super::IngredientDto;
 
@@ -12,5 +9,5 @@ pub struct MenuItemDto{
   pub name: String,
   pub price: f32,
   pub ingredients: Vec<IngredientDto>,
-  pub status: i8
+  pub status: i8,
 }

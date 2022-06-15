@@ -890,6 +890,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "ingredient-service"
+version = "0.1.0"
+dependencies = [
+ "axum",
+ "axum-macros",
+ "azure_core",
+ "azure_data_cosmos",
+ "chrono",
+ "common",
+ "config",
+ "hyper",
+ "mediator",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "tokio",
+ "tower",
+ "tower-http",
+ "tracing",
+ "tracing-subscriber",
+ "utoipa",
+ "utoipa-swagger-ui",
+ "uuid",
+]
+
+[[package]]
 name = "instant"
 version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1029,6 +1055,7 @@ dependencies = [
  "azure_core",
  "azure_data_cosmos",
  "chrono",
+ "common",
  "config",
  "hyper",
  "mediator",
@@ -1311,6 +1338,23 @@ checksum = "8835116a5c179084a830efb3adc117ab007512b535bc1a21c991d3b32a6b44dd"
 [[package]]
 name = "payment-service"
 version = "0.1.0"
+dependencies = [
+ "axum",
+ "axum-macros",
+ "azure_core",
+ "azure_data_cosmos",
+ "chrono",
+ "common",
+ "config",
+ "hyper",
+ "mediator",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tower",
+ "tower-http",
+ "utoipa",
+]
 
 [[package]]
 name = "pbkdf2"
@@ -1492,6 +1536,23 @@ dependencies = [
 [[package]]
 name = "rating-service"
 version = "0.1.0"
+dependencies = [
+ "axum",
+ "axum-macros",
+ "azure_core",
+ "azure_data_cosmos",
+ "chrono",
+ "common",
+ "config",
+ "hyper",
+ "mediator",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tower",
+ "tower-http",
+ "utoipa",
+]
 
 [[package]]
 name = "redox_syscall"
