@@ -3,28 +3,33 @@ mod routes;
 mod app;
 mod domain;
 
+use std::sync::Arc;
+
 use crate::infra::*;
 use crate::routes::*;
-use crate::app::*;
+use crate::domain::*;
 
+use common::webhost::WebHostBuilder;
 use hyper::{Error};
+use tokio::sync::Mutex;
 
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
   
-     let settings = Settings::new().unwrap();
-     let service = create_cosmos(settings.clone());
-     let mediator = create_mediator(&service);
+  let setting = infra::Settings::build().unwrap();
+  let repository = create_repository::<Order>(setting.clone());
+
+     let mediator = create_mediator::<Order>(&repository);
      let apidoc = create_api_doc();
      let router = router();
 
      let host = WebHostBuilder::new(router).build();
      host
-     .add_cosmosdb(service.clone())
-     .add_mediator(mediator)
-     .add_api_docs(apidoc.clone())
-     .start(settings).await;
+     .add_repository(repository)
+     .add_mediator(Arc::new(Mutex::new(mediator)))
+     .add_apidocs(apidoc.clone())
+     .start().await;
      Ok(())
 
 }

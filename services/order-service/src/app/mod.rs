@@ -7,5 +7,4 @@ pub use queries::*;
 mod models;
 pub use models::*;
 
-mod mediatr;
-pub use mediatr::*;
+ 

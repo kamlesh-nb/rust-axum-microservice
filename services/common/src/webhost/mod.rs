@@ -10,8 +10,6 @@ use axum::{
 use mediator::DefaultAsyncMediator;
 use tokio::sync::Mutex;
 use tower_http::{compression::CompressionLayer, cors::CorsLayer};
-use crate::cosmosdb::CosmosService;
-
  
 
 #[derive(Clone)]
@@ -47,16 +45,10 @@ impl WebHost {
         self
     }
 
-    pub fn add_cosmosdb<V: 'static + std::marker::Send>(
-        mut self,
-        service: Arc<Mutex<CosmosService<V>>>
-    ) -> Self {
-        self.app = self.app.layer(Extension(service.clone()));
-        self
-    }
-
-    pub fn add_repository<V>(mut self, repository: Arc<Mutex<V>>) -> Self where V: 'static + std::marker::Send  {
-      self.app = self.app.layer(Extension(repository.clone()));
+    pub fn add_repository<V: 'static + Clone + std::marker::Send + std::marker::Sync>(mut self, repository: V) -> Self 
+    {
+      let repo = Arc::new(Mutex::new(repository));
+      self.app = self.app.layer(Extension(repo.clone()));
       self
     }
 

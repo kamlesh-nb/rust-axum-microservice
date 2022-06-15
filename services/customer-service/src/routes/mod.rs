@@ -60,7 +60,7 @@ responses(
   (status = 404, description = "Customer Not Found", body = CustomerDtoError),
   ),
   params(
-    ("id" = String, path, description = "customer ID")
+    ("id" = String, path, description = "Customer ID")
 ),
 )]
 pub async fn get_customer_by_id(
@@ -70,7 +70,7 @@ pub async fn get_customer_by_id(
     let mut mediator = mediator.lock().await;
     let result = mediator
         .send(GetCustomerByIdRequest {
-            customer_id: id.clone(),
+            id: id.clone(),
         })
         .await;
 

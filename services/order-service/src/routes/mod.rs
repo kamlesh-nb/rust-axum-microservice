@@ -6,10 +6,11 @@ use axum::{
     Extension, Json, Router,
 };
 
-use crate::app::{
-    CreateOrderCommand, DeleteOrderCommand, GetAllOrdersRequest, GetOrderByIdRequest, Order,
-    OrderError, SharedMediator, UpdateOrderCommand,
-};
+use crate::{app::{
+    CreateOrderCommand, DeleteOrderCommand, GetAllOrdersRequest, GetOrderByIdRequest, OrderDto,
+    OrderError,
+}, infra::SharedMediator};
+use crate::app::UpdateOrderCommand;
 use mediator::AsyncMediator;
 
 pub fn router() -> Router {
@@ -49,13 +50,13 @@ pub async fn get_all_orders(Extension(mediator): Extension<SharedMediator>) -> i
 
 #[utoipa::path(
   get,
-  path = "/api/read/order/{order_id}",
+  path = "/api/read/order/{id}",
   responses(
     (status = 200, description = "Order items read successfully", body = Order),
     (status = 404, description = "Order Not Found", body = OrderError),
     ),
     params(
-      ("order_id" = String, path, description = "Order ID")
+      ("id" = String, path, description = "Order ID")
   ),
 )]
 pub async fn get_order_by_id(
@@ -63,7 +64,7 @@ pub async fn get_order_by_id(
     Path(id): Path<String>,
 ) -> impl IntoResponse {
     let mut mediator = mediator.lock().await;
-    let result = mediator.send(GetOrderByIdRequest { order_id: id.clone() }).await;
+    let result = mediator.send(GetOrderByIdRequest { id: id.clone() }).await;
 
     let out = match result {
         Ok(out) => match out.len() {
@@ -89,7 +90,7 @@ pub async fn get_order_by_id(
 #[axum_macros::debug_handler]
 pub async fn create_order(
     Extension(mediator): Extension<SharedMediator>,
-    Json(body): Json<Order>,
+    Json(body): Json<OrderDto>,
 ) -> impl IntoResponse {
     let mut mediator = mediator.lock().await;
     let result = mediator.send(CreateOrderCommand { order: body }).await;
@@ -110,21 +111,25 @@ pub async fn create_order(
 
 #[utoipa::path(
   put,
-  path = "/api/update/order",
+  path = "/api/update/order/{id}",
   request_body = Order,
   responses(
       (status = 201, description = "Order item updated successfully", body = Order),
       (status = 404, description = "Order Not Found", body = OrderError),
       (status = 500, description = "Internal Server Error", body = OrderError),
-      )
+      ),
+      params(
+        ("id" = String, path, description = "Order ID")
+    ),
 )]
 #[axum_macros::debug_handler]
 pub async fn update_order(
     Extension(mediator): Extension<SharedMediator>,
-    Json(body): Json<Order>,
+    Path(id): Path<String>,
+    Json(body): Json<OrderDto>,
 ) -> impl IntoResponse {
     let mut mediator = mediator.lock().await;
-    let result = mediator.send(UpdateOrderCommand { order: body }).await;
+    let result = mediator.send(UpdateOrderCommand {order:body, id }).await;
 
     let out = match result {
         Ok(out) => (StatusCode::OK, Json(out)).into_response(),
@@ -142,21 +147,24 @@ pub async fn update_order(
 
 #[utoipa::path(
   delete,
-  path = "/api/delete/order",
+  path = "/api/delete/order/{id}",
   request_body = Order,
   responses(
       (status = 201, description = "Order item deleted successfully", body = Order),
       (status = 404, description = "Order Not Found", body = OrderError),
       (status = 500, description = "Internal Server Error", body = OrderError),
-      )
+      ),
+      params(
+        ("id" = String, path, description = "Order ID")
+    ),
 )]
 #[axum_macros::debug_handler]
 pub async fn delete_order(
     Extension(mediator): Extension<SharedMediator>,
-    Json(body): Json<Order>,
+    Path(id): Path<String>,
 ) -> impl IntoResponse {
     let mut mediator = mediator.lock().await;
-    let result = mediator.send(DeleteOrderCommand { order: body }).await;
+    let result = mediator.send(DeleteOrderCommand { id }).await;
 
     let out = match result {
         Ok(out) => (StatusCode::OK, Json(out)).into_response(),

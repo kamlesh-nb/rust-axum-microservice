@@ -28,8 +28,8 @@ impl CosmosEntity for Order {
 }
 
 
-impl From<app::Order> for Order {
-    fn from(order: app::Order) -> Self {
+impl From<app::OrderDto> for Order {
+    fn from(order: app::OrderDto) -> Self {
         let mut orderdetails: Vec<domain::OrderDetail> = Vec::new();
         for od in order.order_details {
           orderdetails.push(domain::OrderDetail{

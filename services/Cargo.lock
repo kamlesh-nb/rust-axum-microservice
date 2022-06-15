@@ -1225,6 +1225,7 @@ dependencies = [
  "azure_core",
  "azure_data_cosmos",
  "chrono",
+ "common",
  "config",
  "hyper",
  "mediator",
