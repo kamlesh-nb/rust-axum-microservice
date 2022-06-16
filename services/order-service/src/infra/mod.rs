@@ -18,9 +18,12 @@ pub type SharedMediator = Arc<Mutex<DefaultAsyncMediator>>;
 pub type SharedCosmosRepository<V> = Arc<Mutex<Cosmos<V>>>;
 
 
-pub fn create_repository<V>(setting: Settings) -> SharedCosmosRepository<V> {
+pub fn create_repository<V>(setting: Settings) -> Cosmos<V> 
+where 
+V: Serialize + DeserializeOwned + CosmosEntity + Clone + 'static + Send + Sync  
+{
   let cosmos = Cosmos::<V>::new(setting.database.key, setting.database.account, setting.database.db, setting.database.container);
-  Arc::new(Mutex::new(cosmos))
+  cosmos
 }
 
 

@@ -154,9 +154,9 @@ dependencies = [
 
 [[package]]
 name = "azure_core"
-version = "0.2.2"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ca4393afee90ad13c987a2cbfeb5bbb0b9fb3c86585e42ed3ed151babaa93da1"
+checksum = "c0e2c7582699a3af9cc8a7bc81259519d8afb8eded1090d4fcd86de3db0eace1"
 dependencies = [
  "async-trait",
  "base64",
@@ -175,16 +175,15 @@ dependencies = [
  "serde",
  "serde_derive",
  "serde_json",
- "thiserror",
  "url",
  "uuid",
 ]
 
 [[package]]
 name = "azure_data_cosmos"
-version = "0.2.0"
+version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2422fdc0f03869526e350687908bf65f2eace4ba9031d3b3ecaa1959953a1ec2"
+checksum = "841cc1ed5a194d786eb4aeafee520f72b0a492ffd216c3bd069ccb7c76180f4b"
 dependencies = [
  "async-trait",
  "azure_core",

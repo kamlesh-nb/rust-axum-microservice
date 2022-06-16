@@ -20,7 +20,7 @@ async fn main() -> Result<(), Error> {
   let setting = infra::Settings::build().unwrap();
   let repository = create_repository::<IngredientCategory>(setting.clone());
 
-     let mediator = create_mediator::<IngredientCategory>(&repository);
+     let mediator = create_mediator::<IngredientCategory>(&Arc::new(Mutex::new(repository.clone())));
      let apidoc = create_api_doc();
      let router = router();
 

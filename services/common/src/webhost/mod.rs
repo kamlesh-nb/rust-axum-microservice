@@ -10,6 +10,8 @@ use axum::{
 use mediator::DefaultAsyncMediator;
 use tokio::sync::Mutex;
 use tower_http::{compression::CompressionLayer, cors::CorsLayer};
+
+use crate::data::Repository;
  
 
 #[derive(Clone)]
@@ -45,7 +47,10 @@ impl WebHost {
         self
     }
 
-    pub fn add_repository<V: 'static + Clone + std::marker::Send + std::marker::Sync>(mut self, repository: V) -> Self 
+    pub fn add_repository<Entity, R>(mut self, repository: R) -> Self 
+    where 
+    Entity: 'static,
+    R: Repository<Entity> + Send + 'static + Sync
     {
       let repo = Arc::new(Mutex::new(repository));
       self.app = self.app.layer(Extension(repo.clone()));

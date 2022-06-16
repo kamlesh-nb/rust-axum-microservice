@@ -1,4 +1,4 @@
-use azure_data_cosmos::CosmosEntity;
+
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
@@ -22,7 +22,7 @@ pub struct Customer {
     pub modfied_on: Option<DateTime<Utc>>,
 }
 
-impl CosmosEntity for Customer {
+impl azure_data_cosmos::CosmosEntity  for Customer {
     type Entity = String;
 
     fn partition_key(&self) -> Self::Entity {

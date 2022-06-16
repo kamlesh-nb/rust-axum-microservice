@@ -2,7 +2,7 @@ mod settings;
 use std::sync::Arc;
 
 use azure_data_cosmos::CosmosEntity;
-use common::data::Cosmos;
+use common::data::{Cosmos};
 use mediator::DefaultAsyncMediator;
 use serde::{Serialize, de::DeserializeOwned};
 pub use settings::*;
@@ -18,11 +18,13 @@ pub type SharedMediator = Arc<Mutex<DefaultAsyncMediator>>;
 pub type SharedCosmosRepository<V> = Arc<Mutex<Cosmos<V>>>;
 
 
-pub fn create_repository<V>(setting: Settings) -> SharedCosmosRepository<V> {
+pub fn create_repository<V>(setting: Settings) -> Cosmos<V> 
+where 
+V: Serialize + DeserializeOwned + CosmosEntity + Clone + 'static + Send + Sync  
+{
   let cosmos = Cosmos::<V>::new(setting.database.key, setting.database.account, setting.database.db, setting.database.container);
-  Arc::new(Mutex::new(cosmos))
+  cosmos
 }
-
 
 pub fn create_mediator<V>(service: &SharedCosmosRepository<IngredientCategory>) -> DefaultAsyncMediator  
 where V: Serialize + DeserializeOwned + Clone + CosmosEntity + 'static + Send

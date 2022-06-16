@@ -21,7 +21,7 @@ async fn main() -> Result<(), Error> {
   let setting = infra::Settings::build().unwrap();
   let repository = create_repository::<Rating>(setting.clone());
 
-  let mediatr = create_mediator::<Rating>(&repository);
+  let mediatr = create_mediator::<Rating>(&Arc::new(Mutex::new(repository.clone())));
   let apidoc = create_api_doc();
   let app = routes::router();
   let host = webhost::WebHostBuilder::new(app).build();

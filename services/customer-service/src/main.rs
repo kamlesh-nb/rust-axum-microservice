@@ -20,7 +20,7 @@ async fn main() -> Result<(), Error> {
   let setting = infra::Settings::build().unwrap();
   let repository = create_repository::<Customer>(setting.clone());
 
-  let mediatr = create_mediator::<Customer>(&repository);
+  let mediatr = create_mediator::<Customer>(&Arc::new(Mutex::new(repository.clone())));
   let apidoc = create_api_doc();
   let app = routes::router();
   let host = webhost::WebHostBuilder::new(app).build();
