@@ -18,9 +18,9 @@ use tokio::sync::Mutex;
 async fn main() -> Result<(), Error> {
   
   let setting = infra::Settings::build().unwrap();
-  let repository = create_repository::<Order>(setting.clone());
+  let repository = create_repository::<IngredientCategory>(setting.clone());
 
-     let mediator = create_mediator::<Order>(&repository);
+     let mediator = create_mediator::<IngredientCategory>(&repository);
      let apidoc = create_api_doc();
      let router = router();
 

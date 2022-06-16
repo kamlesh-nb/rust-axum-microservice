@@ -1,5 +1,5 @@
-mod order;
-pub use order::*;
+mod ingredient_category;
+pub use ingredient_category::*;
 
-mod order_detail;
-pub use order_detail::*;
+mod ingredient;
+pub use ingredient::*;

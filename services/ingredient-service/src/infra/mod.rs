@@ -11,7 +11,7 @@ mod apidocs;
 pub use apidocs::*;
 use tokio::sync::Mutex;
 
-use crate::{app::{GetAllOrdersRequestHandler, GetOrderByIdRequestHandler, CreateOrderCommandHandler, DeleteOrderCommandHandler, UpdateOrderCommandHandler}, domain::Order};
+use crate::{app::{GetAllIngredientCategorysRequestHandler, GetIngredientCategoryByIdRequestHandler, CreateIngredientCategoryCommandHandler, DeleteIngredientCategoryCommandHandler, UpdateIngredientCategoryCommandHandler}, domain::IngredientCategory};
 
 
 pub type SharedMediator = Arc<Mutex<DefaultAsyncMediator>>;
@@ -24,15 +24,15 @@ pub fn create_repository<V>(setting: Settings) -> SharedCosmosRepository<V> {
 }
 
 
-pub fn create_mediator<V>(service: &SharedCosmosRepository<Order>) -> DefaultAsyncMediator  
+pub fn create_mediator<V>(service: &SharedCosmosRepository<IngredientCategory>) -> DefaultAsyncMediator  
 where V: Serialize + DeserializeOwned + Clone + CosmosEntity + 'static + Send
 {
     let mediator = DefaultAsyncMediator::builder()
-        .add_handler(GetAllOrdersRequestHandler(service.clone()))
-        .add_handler(GetOrderByIdRequestHandler(service.clone()))
-        .add_handler_deferred(|m| CreateOrderCommandHandler(service.clone(), m))
-        .add_handler_deferred(|m| DeleteOrderCommandHandler(service.clone(), m))
-        .add_handler_deferred(|m| UpdateOrderCommandHandler(service.clone(), m))
+        .add_handler(GetAllIngredientCategorysRequestHandler(service.clone()))
+        .add_handler(GetIngredientCategoryByIdRequestHandler(service.clone()))
+        .add_handler_deferred(|m| CreateIngredientCategoryCommandHandler(service.clone(), m))
+        .add_handler_deferred(|m| DeleteIngredientCategoryCommandHandler(service.clone(), m))
+        .add_handler_deferred(|m| UpdateIngredientCategoryCommandHandler(service.clone(), m))
         .build();
     
         mediator

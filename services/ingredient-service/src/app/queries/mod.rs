@@ -1,5 +1,5 @@
-mod get_all_orders;
-pub use get_all_orders::*;
+mod get_all_ingredients;
+pub use get_all_ingredients::*;
 
-mod get_order_by_id;
-pub use get_order_by_id::*;
+mod get_ingredient_by_id;
+pub use get_ingredient_by_id::*;
