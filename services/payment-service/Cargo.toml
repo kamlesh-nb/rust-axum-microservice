@@ -19,5 +19,7 @@ utoipa = { version = "1.0.2", features = [ "chrono_with_format"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 config = "0.13.1"
+validator = "0.15.0"
+appinsights = "0.2.2"
 azure_data_cosmos = "0.3.0"
 azure_core = "0.3.0"
