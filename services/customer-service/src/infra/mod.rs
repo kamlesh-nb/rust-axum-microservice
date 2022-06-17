@@ -1,8 +1,7 @@
 use std::sync::Arc;
 
 use azure_data_cosmos::CosmosEntity;
-use common::data::{Cosmos};
-// use common::{cosmosdb::CosmosService, data::Cosmos};
+use common::data::Cosmos;
 use mediator::DefaultAsyncMediator;
 
 mod settings;

@@ -8,6 +8,8 @@ use axum::{
 };
 
 use mediator::DefaultAsyncMediator;
+use serde::Serialize;
+use serde::de::DeserializeOwned;
 use tokio::sync::Mutex;
 use tower_http::{compression::CompressionLayer, cors::CorsLayer};
 
@@ -49,8 +51,8 @@ impl WebHost {
 
     pub fn add_repository<Entity, R>(mut self, repository: R) -> Self 
     where 
-    Entity: 'static,
-    R: Repository<Entity> + Send + 'static + Sync
+    Entity: Serialize + DeserializeOwned + Clone + 'static + Send + Sync,
+    R: Repository<Entity> + 'static + Send + Sync
     {
       let repo = Arc::new(Mutex::new(repository));
       self.app = self.app.layer(Extension(repo.clone()));
@@ -79,7 +81,7 @@ impl WebHost {
             );
         self
     }
-
+///Start the server
     pub async fn start(mut self)  {
        
         let address = SocketAddr::from((Ipv4Addr::UNSPECIFIED, 8080));
