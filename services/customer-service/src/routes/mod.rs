@@ -1,3 +1,4 @@
+
 use axum::{
     extract::Path,
     http::StatusCode,
@@ -6,10 +7,11 @@ use axum::{
     Extension, Json, Router,
 };
 
-use crate::app::{
+
+use crate::{app::{
     CreateCustomerCommand, CustomerDto, CustomerDtoError, DeleteCustomerCommand,
     GetAllCustomersRequest, GetCustomerByIdRequest, UpdateCustomerCommand,
-};
+}};
 
 use crate::infra::SharedMediator;
 
@@ -68,6 +70,8 @@ pub async fn get_customer_by_id(
     Path(id): Path<String>,
 ) -> impl IntoResponse {
     let mut mediator = mediator.lock().await;
+   
+    
     let result = mediator
         .send(GetCustomerByIdRequest {
             id: id.clone(),
@@ -118,6 +122,8 @@ pub async fn create_customer(
     Json(body): Json<CustomerDto>,
 ) -> impl IntoResponse {
     let mut mediator = mediator.lock().await;
+
+    
     let result = mediator
         .send(CreateCustomerCommand { customer: body })
         .await;

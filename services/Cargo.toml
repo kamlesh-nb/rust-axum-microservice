@@ -1,6 +1,5 @@
 [workspace]
 members = [
-  "common",
   "customer-service",
   "ingredient-service",
   "menu-service",

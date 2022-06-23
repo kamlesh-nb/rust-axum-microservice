@@ -27,6 +27,6 @@ FROM gcr.io/distroless/cc-debian11
 WORKDIR /app
 
 COPY --from=builder /app/appconfig.Dev.toml .
-COPY --from=builder /app/target/release/customer-service .
+COPY --from=builder /app/target/release/order-service .
 
-CMD ["./customer-service"]
+CMD ["./order-service"]

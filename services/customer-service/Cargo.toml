@@ -6,7 +6,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-common = { path = "../common" }
+common = {git = "https://github.com/kamlesh-nb/common-api" }
 axum = "0.5.6"
 axum-macros = "0.2.1"
 hyper = { version = "0.14.18", features = ["full"] }
@@ -19,7 +19,7 @@ utoipa = { version = "1.0.2", features = [ "chrono_with_format"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 config = "0.13.1"
-validator = "0.15.0"
-appinsights = "0.2.2"
+validator = { version = "0.15.0", features = ["derive"] }
+appinsights = { git = "https://github.com/kamlesh-nb/appinsights-rs" }
 azure_data_cosmos = "0.3.0"
 azure_core = "0.3.0"

@@ -1,5 +1,9 @@
 debug = true
 
+[appinsight]
+key = "76fd9198-a46b-4287-a4ed-305690ead6c1"
+
+
 [database]
 key = "=="
 account = "floki"

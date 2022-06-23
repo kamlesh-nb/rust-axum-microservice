@@ -1,12 +1,32 @@
-FROM rust:latest as build
-
-WORKDIR /usr/src/order-service
+#stage 1
+FROM rust:latest as planner
+WORKDIR /app
+RUN cargo install cargo-chef
 COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
+
+#stage 2
+FROM rust:latest as cacher
+WORKDIR /app
+RUN cargo install cargo-chef
+COPY --from=planner /app/recipe.json recipe.json
+RUN cargo chef cook --release --recipe-path recipe.json
+
+#stage 3
+FROM rust:latest as builder
+COPY . /app
+WORKDIR /app
+COPY --from=cacher /app/target target
+COPY --from=cacher /usr/local/cargo /usr/local/cargo
 
 RUN cargo build --release
 
 EXPOSE 8080
 
-FROM debian:buster-slim
-COPY --from=build /usr/src/order-service/target/release/order-service /usr/local/bin/order-service
-ENTRYPOINT ["/usr/local/bin/order-service"]
+FROM gcr.io/distroless/cc-debian11
+WORKDIR /app
+
+COPY --from=builder /app/appconfig.Dev.toml .
+COPY --from=builder /app/target/release/customer-service .
+
+CMD ["./customer-service"]

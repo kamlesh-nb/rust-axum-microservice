@@ -1,14 +1,21 @@
 use serde::{Deserialize, Serialize};
 use utoipa::Component;
 use chrono::{DateTime, Utc};
+use validator::Validate;
 
 use crate::domain::Customer;
 
-#[derive(Serialize, Deserialize, Component, Clone, Debug)]
+#[derive(Serialize, Deserialize, Validate, Component, Clone, Debug)]
 pub struct CustomerDto {
   pub id: String,
+
+  #[validate(length(min = 1, max = 15))]
   pub first_name: String,
+
+  #[validate(length(min = 1, max = 15))]
   pub last_name: String,
+
+  #[validate(email)]
   pub email: String,
   pub address: String,
   pub city: String,
