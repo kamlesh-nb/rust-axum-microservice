@@ -1,4 +1,4 @@
-use azure_data_cosmos::CosmosEntity;
+ 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
@@ -7,22 +7,14 @@ use crate::app::RatingDto;
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Rating {
     pub id: String,
-    pub first_name: String,
-    pub last_name: String,
-    pub email: String,
-    pub address: String,
-    pub city: String,
-    pub state: String,
-    pub phone: String,
-    pub birthday: DateTime<Utc>,
-    pub favourite_dishes: Vec<String>,
-    pub created_by: Option<String>,
-    pub created_on: Option<DateTime<Utc>>,
-    pub modified_by: Option<String>,
-    pub modfied_on: Option<DateTime<Utc>>,
+    pub customer_id: String,
+    pub menu_id: String,
+    pub score: i16,
+    pub remarks: String,
+    pub date_recorded: DateTime<Utc>,
 }
 
-impl CosmosEntity for Rating {
+impl azure_data_cosmos::CosmosEntity for Rating {
     type Entity = String;
 
     fn partition_key(&self) -> Self::Entity {
@@ -34,19 +26,11 @@ impl From<RatingDto> for Rating {
     fn from(dto: RatingDto) -> Self {
         Self {
             id: dto.id,
-            first_name: dto.first_name,
-            last_name: dto.last_name,
-            email: dto.email,
-            address: dto.address,
-            city: dto.city,
-            state: dto.state,
-            phone: dto.phone,
-            birthday: dto.birthday,
-            favourite_dishes: dto.favourite_dishes,
-            created_by: None,
-            created_on: None,
-            modified_by: None,
-            modfied_on: None,
+            customer_id: dto.customer_id,
+            menu_id: dto.menu_id,
+            score: dto.score,
+            remarks: dto.remarks,
+            date_recorded: dto.date_recorded,
         }
     }
 }

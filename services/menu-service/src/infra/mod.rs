@@ -1,5 +1,6 @@
-use std::sync::Arc;
+use std::{sync::Arc, time::Duration};
 
+use appinsights::{TelemetryClient, TelemetryConfig};
 use azure_data_cosmos::CosmosEntity;
 use common::data::Cosmos;
 use mediator::DefaultAsyncMediator;
@@ -18,6 +19,18 @@ use tokio::sync::Mutex;
 
 pub type SharedMediator = Arc<Mutex<DefaultAsyncMediator>>;
 pub type SharedCosmosRepository<V> = Arc<Mutex<Cosmos<V>>>;
+pub type SharedTelemetry = Arc<Mutex<TelemetryClient>>;
+
+pub fn create_logger(key: String) -> SharedTelemetry {
+  let config = TelemetryConfig::builder()
+      .i_key(key)
+      .interval(Duration::from_secs(5))
+      .build();
+  
+  let client = TelemetryClient::from_config(config);
+  Arc::new(Mutex::new(client))
+}
+
 
 pub fn create_repository<V>(setting: Settings) -> Cosmos<V> 
 where 

@@ -7,30 +7,22 @@ use crate::domain::Rating;
 #[derive(Serialize, Deserialize, Component, Clone, Debug)]
 pub struct RatingDto {
   pub id: String,
-  pub first_name: String,
-  pub last_name: String,
-  pub email: String,
-  pub address: String,
-  pub city: String,
-  pub state: String,
-  pub phone: String,
-  pub birthday: DateTime<Utc>,
-  pub favourite_dishes: Vec<String>
+  pub customer_id: String,
+  pub menu_id: String,
+  pub score: i16,
+  pub remarks: String,
+  pub date_recorded: DateTime<Utc>,
 }
 
 impl From<Rating> for RatingDto {
   fn from(entity: Rating) -> Self {
       Self {
           id: entity.id,
-          first_name: entity.first_name,
-          last_name: entity.last_name,
-          email: entity.email,
-          address: entity.address,
-          city: entity.city,
-          state: entity.state,
-          phone: entity.phone,
-          birthday: entity.birthday,
-          favourite_dishes: entity.favourite_dishes,
+          customer_id: entity.customer_id,
+          menu_id: entity.menu_id,
+          score: entity.score,
+          remarks: entity.remarks,
+          date_recorded: entity.date_recorded,
       }
   }
 }

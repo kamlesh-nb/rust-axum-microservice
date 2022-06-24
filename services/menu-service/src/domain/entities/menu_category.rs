@@ -1,4 +1,4 @@
-use azure_data_cosmos::CosmosEntity;
+ 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use utoipa::Component;
@@ -19,7 +19,7 @@ pub struct MenuCategory {
     pub modfied_on: Option<DateTime<Utc>>,
 }
 
-impl CosmosEntity for MenuCategory {
+impl azure_data_cosmos::CosmosEntity for MenuCategory {
   type Entity = String;
 
   fn partition_key(&self) -> Self::Entity {

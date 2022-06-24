@@ -1,5 +1,5 @@
 use config::{Config, ConfigError, File};
-use serde_derive::Deserialize;
+use serde::Deserialize;
 use std::env;
 
 #[derive(Debug, Clone, Deserialize)]
@@ -13,8 +13,15 @@ pub struct Database {
 
 #[derive(Debug, Clone, Deserialize)]
 #[allow(unused)]
+pub struct AppInsight {
+  pub key: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[allow(unused)]
 pub struct Settings {
     pub debug: bool,
+    pub appinsight: AppInsight,
     pub database: Database,
 }
 

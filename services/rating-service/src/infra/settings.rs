@@ -13,8 +13,15 @@ pub struct Database {
 
 #[derive(Debug, Clone, Deserialize)]
 #[allow(unused)]
+pub struct AppInsight {
+  pub key: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[allow(unused)]
 pub struct Settings {
     pub debug: bool,
+    pub appinsight: AppInsight,
     pub database: Database,
 }
 
